@@ -16,30 +16,51 @@ int main(void) {
     unsortedHashmap *hashmap = initHashmap(hashmapSize);
 
 
-	char *key = "testKey";
-    char *value = "testValue";
-	char *newValue = "newTestValue";
+	char *key = "stringTestKey";
+    Value value;
+	value.stringValue = "testValue";
+	Value newValue;
+	newValue.stringValue= "newTestValue";
 	char *invalidKey = "randomKey";
 
-    if (insertKey(hashmap, hashmapSize, key, value, hashSeed) != 0) {
+	char *keyTwo = "intTestKey";
+	Value valueTwo;
+	valueTwo.intValue = 4;
+
+    if (insertKey(hashmap, hashmapSize, key, STRING, value, hashSeed) != 0) {
 		return -1;
 	}
     
-    if(getValue(hashmap, hashmapSize, key, hashSeed) == NULL) {
+    if (insertKey(hashmap, hashmapSize, key, STRING, newValue, hashSeed) != 0) {
 		return -2;
 	}
 
-    if (insertKey(hashmap, hashmapSize, key, newValue, hashSeed) != 0) {
+	if (insertKey(hashmap, hashmapSize, keyTwo, INT, valueTwo, hashSeed) != 0 ) {
 		return -3;
 	}
 
-    if(strcmp(getValue(hashmap, hashmapSize, key, hashSeed), newValue) != 0) {
+	Node result = getValue(hashmap, hashmapSize, key, hashSeed);
+	
+	if (result.dataType != STRING) {
 		return -4;
 	}
 
-	if(getValue(hashmap, hashmapSize, invalidKey, hashSeed) != NULL) {
+	if (deleteValue(hashmap, hashmapSize, key, hashSeed) != 0) {
 		return -5;
 	}
+
+	Node result2 = getValue(hashmap, hashmapSize, key, hashSeed);
+
+	if (result2.dataType != INT) {
+		return -6;
+	}
+
+	Node result3 = getValue(hashmap, hashmapSize, invalidKey, hashSeed);
+
+	if (result3.dataType != INT) {
+		return -7;
+	}
+
 
 
 	freeHashmap(hashmap);

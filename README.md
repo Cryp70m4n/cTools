@@ -16,6 +16,5 @@ Simple to use implementations of well-known data structures & algorithms in C.
     - [ ] Implement Doubly LinkedLists
 
 
-# Ideas
-Write union for int and char * and then use function pointer, that way hashmaps would be able to store both data types
-
+# Notes
+Implemented unions in hashmaps to be able to store multiple types but it is now way harder for end-user to use hashmaps.

@@ -29,7 +29,7 @@ unsortedHashmap *initHashmap(size_t hashmapSize) {
 }
 
 
-int insertKey(unsortedHashmap *hashmap, size_t hashmapSize, char *key, char *value, uint32_t hashSeed) {
+int insertKey(unsortedHashmap *hashmap, size_t hashmapSize, char *key, DataType dataType, Value value, uint32_t hashSeed) {
 	uint64_t index = MurmurHash3(key, strlen(key), hashSeed) % hashmapSize;
 
 	Node *newNode = (Node*)malloc(sizeof(Node));
@@ -39,7 +39,8 @@ int insertKey(unsortedHashmap *hashmap, size_t hashmapSize, char *key, char *val
 	}
 
 	newNode->key = strdup(key);
-	newNode->value = strdup(value);
+	newNode->dataType = dataType;
+	newNode->value = value;
 	newNode->next = NULL;
 
 	Node *current = hashmap->table[index];
@@ -48,6 +49,7 @@ int insertKey(unsortedHashmap *hashmap, size_t hashmapSize, char *key, char *val
 	// prevent collision attacks
 	while (current != NULL) {
 		if (strcmp(current->key, key) == 0) {
+			current->dataType = dataType;
 			current->value = value;
 			free(newNode->key);
 			free(newNode);
@@ -67,7 +69,7 @@ int insertKey(unsortedHashmap *hashmap, size_t hashmapSize, char *key, char *val
 	return 0;
 }
 
-char *getValue(unsortedHashmap *hashmap, size_t hashmapSize, char *key, uint32_t hashSeed) {
+Node getValue(unsortedHashmap *hashmap, size_t hashmapSize, char *key, uint32_t hashSeed) {
 	uint64_t index = MurmurHash3(key, strlen(key), hashSeed) % hashmapSize;
 
 	Node *current = hashmap->table[index];
@@ -75,12 +77,20 @@ char *getValue(unsortedHashmap *hashmap, size_t hashmapSize, char *key, uint32_t
 	// prevent collision attacks
 	while (current != NULL) {
 		if (strcmp(current->key, key) == 0) {
-			return current->value;
+			return *current;
 		}
 		current = current->next;
 	}
 
-	return NULL;
+	Node notFound;
+	Value notFoundValue;
+	notFoundValue.intValue = -1;
+
+	notFound.key = NULL;
+	notFound.dataType = INT;
+	notFound.value = notFoundValue;
+
+	return notFound;
 }
 
 int deleteValue(unsortedHashmap *hashmap, size_t hashmapSize, char *key, uint32_t hashSeed) {	
