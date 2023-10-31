@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "../../include/linkedLists/LinkedList.h"
 
@@ -17,17 +18,18 @@ LinkedList *initLinkedList(void) {
 	return linkedList;
 }
 
-int insertIntoLinkedList(LinkedList *linkedList, char *value) {
+int insertIntoLinkedList(LinkedList *linkedList, DataType dataType, Value value) {
 	Node *newNode = (Node*)malloc(sizeof(Node));
-
+	
 	if (newNode == NULL) {
 		return -1;
 	}
 
-	newNode->data = strdup(value);
+	newNode->dataType = dataType;
+	newNode->value = value;
 	newNode->next = NULL;
-
-	if (linkedList->head == NULL) {
+	
+	if(linkedList->head == NULL) {
 		linkedList->head = newNode;
 		return 0;
 	}
@@ -41,26 +43,88 @@ int insertIntoLinkedList(LinkedList *linkedList, char *value) {
 	current->next = newNode;
 
 	return 0;
+
 }
 
-int deleteFromLinkedList(LinkedList *linkedList, char *value) {
-	if (strcmp(linkedList->head->data, value) == 0) {
-		Node *head = linkedList->head;
-		linkedList->head = linkedList->head->next;
-		free(head);
-		return 0;
+int deleteFromLinkedList(LinkedList *linkedList, Value value) {
+	bool found = false;
+
+	switch (linkedList->head->dataType) {
+		case INT:
+			if (linkedList->head->value.intValue == value.intValue) {
+				found = true;
+			}
+			break;
+
+		case LONG:
+			if (linkedList->head->value.longValue == value.longValue) {
+				found = true;
+			}
+			break;
+
+		case FLOAT:
+			if (linkedList->head->value.floatValue == value.floatValue) {
+				found = true;
+			}
+			break;
+
+		case STRING:
+			if (strcmp(linkedList->head->value.stringValue, value.stringValue) == 0) {
+				found = true;
+			}
+			break;
+
+		default:
+			break;
 	}
+
+		if (found == true) {
+			Node *head = linkedList->head;
+			linkedList->head = linkedList->head->next;
+			free(head);
+			return 0;
+		}
 
 	Node *current = linkedList->head;
 	Node *previous = NULL;
+	
 
 	while (current != NULL) {
-		if (strcmp(current->data, value) == 0) {
+		switch (current->dataType) {
+			case INT:
+				if (current->value.intValue == value.intValue) {
+					found = true;
+				}
+				break;
+
+			case LONG:
+				if (current->value.longValue == value.longValue) {
+					found = true;
+				}
+				break;
+
+			case FLOAT:
+				if (current->value.floatValue == value.floatValue) {
+					found = true;
+				}
+				break;
+
+			case STRING:
+				if (strcmp(current->value.stringValue, value.stringValue) == 0) {
+					found = true;
+				}
+				break;
+
+			default:
+				break;
+		}
+
+		if (found == true) {
 			previous->next = current->next;
-			free(current->data);
 			free(current);
 			return 0;
 		}
+
 		previous = current;
 		current = current->next;
 	}

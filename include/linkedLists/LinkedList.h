@@ -1,13 +1,16 @@
+#include "../dataTypes.h"
+
 typedef struct Node {
-	char *data;
+	DataType dataType;
+	Value value;
 	struct Node *next;
 } Node;
 
 typedef struct {
-	struct Node *head;
+	Node *head;
 } LinkedList;
 
 LinkedList *initLinkedList(void);
-int insertIntoLinkedList(LinkedList *linkedList, char *value);
-int deleteFromLinkedList(LinkedList *linkedList, char *value);
+int insertIntoLinkedList(LinkedList *linkedList, DataType dataType, Value value);
+int deleteFromLinkedList(LinkedList *linkedList, Value value);
 void freeLinkedList(LinkedList *linkedList);

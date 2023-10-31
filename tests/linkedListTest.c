@@ -7,23 +7,30 @@
 int main(void) {
 	LinkedList *linkedList = initLinkedList();
 
-	char *values[TEST_SIZE] = {"test", "test2", "test3"};
+	Value test;
+	test.stringValue = "test";
+	Value test2;
+	test2.intValue = 2;
+	Value test3;
+	test3.stringValue = "test3";
 
-	int currentElement = -1;
-	for(int i = 0; i < TEST_SIZE; i++) {
-		if (insertIntoLinkedList(linkedList, values[i])) {
-			return currentElement;
-		}
-		currentElement--;
+	if (insertIntoLinkedList(linkedList, STRING, test) != 0) {
+		return -1;
 	}
 
-	if (deleteFromLinkedList(linkedList, "test") != 0) {
+	if (insertIntoLinkedList(linkedList, INT, test2) != 0) {
+		return -2;
+	}
+
+	if (insertIntoLinkedList(linkedList, STRING, test3) != 0) {
+		return -3;
+	}
+
+	if (deleteFromLinkedList(linkedList, test) != 0) {
 		return -4;
 	}
 
-	if (deleteFromLinkedList(linkedList, "test5") == 0) {
-		return -5;
-	}
+
 
 	freeLinkedList(linkedList);
 
