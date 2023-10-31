@@ -1,18 +1,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#include "../dataTypes.h"
 
-typedef enum {
-	INT,
-	FLOAT,
-	STRING,
-} DataType;
-
-typedef union {
-	int intValue;
-	float floatValue;
-	char *stringValue;
-} Value;
 
 typedef struct Node {
 	char *key;

@@ -1,5 +1,14 @@
 #include <stdlib.h>
 
+#include "../dataTypes.h"
+
+typedef struct Node {
+	DataType dataType;
+	Value value;
+} Node;
+
+
+// UPDATE QUEUE TO USE DATA TYPES
 typedef struct {
 	char **data;
 	int rear;

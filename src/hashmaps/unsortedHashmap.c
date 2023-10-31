@@ -84,10 +84,10 @@ Node getValue(unsortedHashmap *hashmap, size_t hashmapSize, char *key, uint32_t 
 
 	Node notFound;
 	Value notFoundValue;
-	notFoundValue.intValue = -1;
+	notFoundValue.voidValue = NULL;
 
 	notFound.key = NULL;
-	notFound.dataType = INT;
+	notFound.dataType = VOID;
 	notFound.value = notFoundValue;
 
 	return notFound;
