@@ -7,10 +7,8 @@ typedef struct Node {
 	Value value;
 } Node;
 
-
-// UPDATE QUEUE TO USE DATA TYPES
 typedef struct {
-	char **data;
+	Node **data;
 	int rear;
 	int front;
 	size_t currentQueueSize;
@@ -18,6 +16,6 @@ typedef struct {
 } Queue;
 
 Queue *initQueue(size_t queueSize);
-int enqueue(Queue *queue, char *value);
-char *dequeue(Queue *queue);
+int enqueue(Queue *queue, DataType dataType, Value value);
+Node dequeue(Queue *queue);
 void freeQueue(Queue *queue);

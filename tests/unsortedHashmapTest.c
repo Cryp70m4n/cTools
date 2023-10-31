@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <stdint.h>
 
 #include "../include/hashmaps/unsortedHashmap.h"
@@ -57,7 +55,7 @@ int main(void) {
 
 	Node result3 = getValue(hashmap, hashmapSize, invalidKey, hashSeed);
 
-	if (result3.dataType != INT) {
+	if (result3.dataType != VOID) {
 		return -7;
 	}
 

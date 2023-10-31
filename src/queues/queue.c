@@ -16,7 +16,7 @@ Queue *initQueue(size_t queueSize) {
 	queue->rear = -1;
 	queue->currentQueueSize = 0;
 	queue->queueSize = queueSize;
-	queue->data = (char **)malloc(queueSize * sizeof(char *));
+	queue->data = (Node**)malloc(queueSize * sizeof(Node*));
 
 	if(queue->data == NULL) {
 		free(queue);
@@ -31,7 +31,7 @@ Queue *initQueue(size_t queueSize) {
 }
 
 
-int enqueue(Queue *queue, char *value) {
+int enqueue(Queue *queue, DataType dataType, Value value) {
 	if (queue->currentQueueSize >= queue->queueSize) {
 		return -1;
 	}
@@ -43,18 +43,34 @@ int enqueue(Queue *queue, char *value) {
 		queue->rear = (queue->rear+1) % queue->queueSize;
 	}
 
-	queue->data[queue->rear] = strdup(value);
+	Node *newNode = (Node*)malloc(sizeof(Node));
+
+	if (newNode == NULL) {
+		return -2;
+	}
+
+	newNode->dataType = dataType;
+	newNode->value = value;
+
+	queue->data[queue->rear] = newNode;
 	queue->currentQueueSize++;
 
 	return 0;
 }
 
-char *dequeue(Queue *queue) {
+Node dequeue(Queue *queue) {
 	if(queue->currentQueueSize == 0) {
-		return NULL;
+		Node notFound;
+		Value notFoundValue;
+		notFoundValue.voidValue = NULL;
+
+		notFound.dataType = VOID;
+		notFound.value = notFoundValue;
+
+		return notFound;
 	}
 
-	char *value = queue->data[queue->front];
+	Node *node = queue->data[queue->front];
 
 	if(queue->front == queue->rear) {
 		queue->front = -1;
@@ -65,7 +81,8 @@ char *dequeue(Queue *queue) {
 
 	queue->currentQueueSize++;
 
-	return value;
+
+	return *node;
 }
 
 
@@ -73,3 +90,4 @@ void freeQueue(Queue *queue) {
 	free(queue->data);
 	free(queue);
 }
+
