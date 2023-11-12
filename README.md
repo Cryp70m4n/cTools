@@ -3,6 +3,7 @@ Simple to use implementations of well-known data structures & algorithms in C.
 
 
 # TODO
+- [ ] Add header guards
 - [ ] Write DOCS
 - [x] Implement hashmaps
     - [ ] Write better test for unsortedHashmap
@@ -14,6 +15,7 @@ Simple to use implementations of well-known data structures & algorithms in C.
 - [X] Implement LinkedLists
     - [ ] Write better tests for LinkedLists
     - [ ] Implement Doubly LinkedLists
+- [ ] Give different names to Nodes so it doesn't come to conflict when using multiple different data structures
 
 
 # Notes
